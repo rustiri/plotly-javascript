@@ -56,28 +56,41 @@ function buildMetadata(sample) {
   });
 }
 
-// 1. Create the buildCharts function.
+// D1: 1. Create the buildCharts function.
 function buildCharts(sample) {
-  // 2. Use d3.json to load and retrieve the samples.json file 
+  // D1: 2. Use d3.json to load and retrieve the samples.json file 
   d3.json("samples.json").then((data) => {
-    // 3. Create a variable that holds the samples array. 
+    // D1: 3. Create a variable that holds the samples array. 
     let samplesArr = data.samples;
-    // 4. Create a variable that filters the samples for the object with the desired sample number.
+    // D1: 4. Create a variable that filters the samples for the object with the desired sample number.
     let resultArray = samplesArr.filter(sampleObj => sampleObj.id == sample);
-    //  5. Create a variable that holds the first sample in the array.
+
+    // D3: 1. Create a variable that filters the metadata array for the object with the desired sample number.
+    //let metadata = data.metadata;
+    let metadataFilters = data.metadata.filter(sampleObj => sampleObj.id == sample);
+
+    // D1: 5. Create a variable that holds the first sample in the array.
     let firstSample = resultArray[0];
 
-    // 6. Create variables that have arrays or hold the otu_ids, otu_labels, and sample_values.
+    // D3: 2. Create a variable that holds the first sample in the metadata array.
+    let firstMetadata = metadataFilters[0]
+
+    // D1: 6. Create variables that have arrays or hold the otu_ids, otu_labels, and sample_values.
     let otuIDs = firstSample.otu_ids;
     let otuLabes = firstSample.otu_labels;
     let sampleVal = firstSample.sample_values;
 
-    // 7. Create the yticks for the bar chart.
+    // D3: 3. Create a variable that holds the washing frequency and
+    //converts the washing frequency to a floating point number.
+    let washingFreq = firstMetadata.wfreq;
+    let wfreqFloat = parseFloat(washingFreq);
+    
+    // D1: 7. Create the yticks for the bar chart.
     // Hint: Get the the top 10 otu_ids and map them in descending order  
     // so the otu_ids with the most bacteria are last. 
     let yticks = otuIDs.slice(0,10).map(otuID => `OTU ${otuID}`).reverse();
 
-    // 8. Create the trace for the bar chart. 
+    // D1: 8. Create the trace for the bar chart. 
     //where the x values are the sample_values
     //the hover text for the bars are the otu_labels in descending order.
     let barData = [
@@ -93,7 +106,7 @@ function buildCharts(sample) {
       }   
     ];
 
-    // 9. Create the layout for the bar chart. 
+    // D1: 9. Create the layout for the bar chart. 
     let barLayout = {
       title: "Top 10 Bacteria Cultures Found",
       margin: {
@@ -103,11 +116,11 @@ function buildCharts(sample) {
         b: 100
       }
     };
-    // 10. Use Plotly to plot the data with the layout. 
+    // D1: 10. Use Plotly to plot the data with the layout. 
     Plotly.newPlot("bar", barData, barLayout);
 
-    //Bubbe Chart
-    // 1. Create the trace for the bubble chart.
+    //D2: Bubbe Chart
+    // D2: 1. Create the trace for the bubble chart.
     let bubbleData = [
       {
         //Sets the otu_ids as the x-axis values
@@ -128,14 +141,56 @@ function buildCharts(sample) {
       }
     ];
 
-    // 2. Create the layout for the bubble chart.
+    // D2: 2. Create the layout for the bubble chart.
     let bubbleLayout = {
       title: "Bacteria Culture Per Sample",
       showlegend: false,
       xaxis: { title: "OTU ID"}
     };
 
-    // 3. Use Plotly to plot the data with the layout.
+    // D2: 3. Use Plotly to plot the data with the layout.
     Plotly.newPlot("bubble", bubbleData, bubbleLayout);
+
+    // D3: 4. Create the trace for the gauge chart.
+    var gaugeData = [
+      {
+        //The indicator to shows the level for the washing frequency
+        type: "indicator",
+        mode: "gauge+number",
+        //Adds the washing frequency value
+        value: wfreqFloat,
+        //Creates a title for the chart
+        title: {
+          //text: title.append("p").text("Belly Button Washing Frequency<br>Scrubs per Week")
+          text: title = "<b>Belly Button Washing Frequency</b><br>Scrubs per Week"
+        },
+        gauge: {
+          axis: {
+            range: [null, 10],
+            tickwidth: 1, 
+            tickcolor: "#4f524b" 
+          },
+          //The indicator shows the level for the washing frequency
+          bar: { color: "#4f524b" },
+          //ranges for the gauge in increments of two, with a different color for each increment.
+          steps: [
+            { range: [0,2], color: "#bf9960"},
+            { range: [2,4], color: "#c9b25d"},
+            { range: [4,6], color: "#c4c95d"},
+            { range: [6,8], color: "#98c95d"},
+            { range: [8,10], color: "#5ca307"}
+          ]
+        }
+      }
+    ];
+    
+    // D3: 5. Create the layout for the gauge chart.
+    var gaugeLayout = { 
+      margin: { t: 25, r: 25, l: 25, b: 25 }
+    };
+
+    // D3: 6. Use Plotly to plot the gauge data and layout.
+    Plotly.newPlot("gauge", gaugeData, gaugeLayout);
+
   });
 }
