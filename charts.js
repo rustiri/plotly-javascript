@@ -152,7 +152,7 @@ function buildCharts(sample) {
     Plotly.newPlot("bubble", bubbleData, bubbleLayout);
 
     // D3: 4. Create the trace for the gauge chart.
-    var gaugeData = [
+    let gaugeData = [
       {
         //The indicator to shows the level for the washing frequency
         type: "indicator",
@@ -185,8 +185,8 @@ function buildCharts(sample) {
     ];
     
     // D3: 5. Create the layout for the gauge chart.
-    var gaugeLayout = { 
-      margin: { t: 25, r: 25, l: 25, b: 25 }
+    let gaugeLayout = { 
+      margin: { t: 10, b: 0, l: 15, r: 15 }
     };
 
     // D3: 6. Use Plotly to plot the gauge data and layout.
