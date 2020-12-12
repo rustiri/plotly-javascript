@@ -194,3 +194,17 @@ function buildCharts(sample) {
 
   });
 }
+
+/*
+//function to update chart based on selection
+function updateChart(newChart) {
+  let selector = d3.selectAll("#chartOption").node();
+  let dropdownMenuID = dropdownMenu.id;
+  let selectedOption = dropdownMenu.value;
+
+  // Use d3.json to load and retrieve the samples.json file 
+  d3.json("samples.json").then((data) => {
+
+  });
+}
+*/
