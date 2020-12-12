@@ -1,6 +1,6 @@
 # Plotly – Data Visualization JavaScript
 
-##Overview of Project
+## Overview of Project
 The goal of this project is to create an interactive data visualization for the web using Plotly.js. Plotly.js is a JavaScript data visualization library.
 
 The following tasks to complete:
@@ -14,16 +14,16 @@ The following tasks to complete:
 * Deploy an interactive chart to GitHub Pages.
 
 
-##Resources and Tools
+## Resources and Tools
 1. Plotly.js
 2. D3.json 
 3. Web browser: Google or FireFox
 4. Command line interface
 
 ## Sample of Completed Website
-![alt text](images/ sample_website1.png)
-![alt text](images/ sample_website2.png)
+![alt text](images/sample_website1.png)
+![alt text](images/sample_website2.png)
 
-##Online
+## Online
 Click link below or type in the browser:
 https://rustiri.github.io/plotly-javascript/
